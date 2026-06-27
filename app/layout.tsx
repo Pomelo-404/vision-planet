@@ -47,14 +47,14 @@ export const metadata: Metadata = {
     siteName: "Vision Planet",
     title: "Vision Planet",
     description:
-      "Explora nuestro catálogo de armazones y pide tu modelo favorito por WhatsApp.",
+      "Armazones que definen, no que te definen. Encuentra tu próximo armazón y realiza tu pedido por WhatsApp.",
     url: "https://vision-planet-pink.vercel.app/",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Vision Planet",
+        alt: "Armazones que definen, no que te definen. Encuentra tu próximo armazón y realiza tu pedido por WhatsApp.",
       },
     ],
   },
@@ -68,8 +68,8 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
     apple: "/apple-touch-icon.png",
   },
 

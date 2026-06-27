@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   IconSearch,
@@ -17,7 +17,7 @@ import {
   IconSun,
 } from "@tabler/icons-react";
 import ProductCard from "./ProductCard";
-import { products } from "@/lib/products";
+import type { Product } from "@/lib/products";
 import Image from "next/image";
 import logo from "@/public/iso.png";
 
@@ -32,15 +32,6 @@ const cats: { k: Key; l: string; Icon: typeof IconTag }[] = [
   { k: "type", l: "Tipo", Icon: IconSun },
 ];
 
-// computed once — products is static
-const allowed = cats.reduce(
-  (m, c) => {
-    m[c.k] = [...new Set(products.map((p) => p[c.k]))].sort();
-    return m;
-  },
-  {} as Record<Key, string[]>,
-);
-
 const empty: Filters = {
   q: "",
   brand: "",
@@ -51,12 +42,23 @@ const empty: Filters = {
   stock: false,
 };
 
-export default function Catalog() {
+export default function Catalog({ products }: { products: Product[] }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // initial state comes FROM the url (invalid values are ignored)
+  const allowed = useMemo(
+    () =>
+      cats.reduce(
+        (m, c) => {
+          m[c.k] = [...new Set(products.map((p) => p[c.k]))].sort();
+          return m;
+        },
+        {} as Record<Key, string[]>,
+      ),
+    [products],
+  );
+
   const [f, setF] = useState<Filters>(() => {
     const val = (k: Key) => {
       const v = searchParams.get(k) ?? "";
@@ -76,7 +78,6 @@ export default function Catalog() {
   const [showVals, setShowVals] = useState(false);
   const [activeCat, setActiveCat] = useState<Key>("brand");
 
-  // write state back TO the url (debounced so typing doesn't spam navigation)
   useEffect(() => {
     const id = setTimeout(() => {
       const params = new URLSearchParams();
@@ -91,7 +92,8 @@ export default function Catalog() {
     return () => clearTimeout(id);
   }, [f, pathname, router]);
 
-  const list = products.filter((p) => {
+  // filtra a nivel variante
+  const filtered = products.filter((p) => {
     const q = f.q.toLowerCase();
     if (q && !`${p.name} ${p.id} ${p.brand}`.toLowerCase().includes(q))
       return false;
@@ -100,6 +102,17 @@ export default function Catalog() {
       (!f.stock || p.stock > 0)
     );
   });
+
+  // agrupa las variantes en una entrada por modelo
+  const groups = useMemo(() => {
+    const m = new Map<string, Product[]>();
+    filtered.forEach((p) => {
+      const arr = m.get(p.model) ?? [];
+      arr.push(p);
+      m.set(p.model, arr);
+    });
+    return [...m.values()];
+  }, [filtered]);
 
   const setVal = (v: string) => setF((s) => ({ ...s, [activeCat]: v }));
   const reset = () => setF(empty);
@@ -132,7 +145,7 @@ export default function Catalog() {
           </div>
         </div>
         <span className="count">
-          {list.length} modelo{list.length === 1 ? "" : "s"}
+          {groups.length} modelo{groups.length === 1 ? "" : "s"}
         </span>
       </div>
 
@@ -237,10 +250,10 @@ export default function Catalog() {
       )}
 
       <div className="grid">
-        {list.length === 0 ? (
+        {groups.length === 0 ? (
           <div className="empty">No hay modelos con esos filtros.</div>
         ) : (
-          list.map((p) => <ProductCard key={p.id} p={p} />)
+          groups.map((vs) => <ProductCard key={vs[0].model} variants={vs} />)
         )}
       </div>
     </main>

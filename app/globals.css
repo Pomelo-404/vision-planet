@@ -474,7 +474,7 @@ button {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--line);
+  background: grey;
   border: none;
   cursor: pointer;
   padding: 0;
@@ -521,9 +521,13 @@ button {
   font-weight: 500;
 }
 .avail.ok {
+  font-weight: 600;
+  font-size: 14px;
   color: var(--accent);
 }
 .avail.no {
+  font-weight: 600;
+  font-size: 14px;
   color: #8a3b2f;
 }
 .specs {
@@ -599,6 +603,49 @@ button {
   height: auto;
   width: auto;
   padding-right: 0.8rem;
+}
+
+/* ===== Selectores de color (swatches) ===== */
+.cdot.swatch {
+  width: 10px;
+  height: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+.cdot.swatch.on {
+  transform: scale(1.25);
+}
+.swatches {
+  display: flex;
+  gap: 12px;
+  margin: 10px 0 4px;
+  flex-wrap: wrap;
+}
+.swatch {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  padding: 0;
+  box-shadow: 0 0 0 2px transparent;
+  transition:
+    box-shadow 0.15s,
+    transform 0.15s;
+}
+.swatch:hover {
+  transform: scale(1.08);
+}
+.swatch.on {
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.swatch.soldout {
+  opacity: 0.4;
+}
+.swlabel {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0 0 16px;
 }
 
 /* ===== RESPONSIVE — switches at 640px of the .shop container width ===== */

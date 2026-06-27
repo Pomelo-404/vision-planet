@@ -1,5 +1,4 @@
 import type { Product, Shape } from "./products";
-import Image from "next/image";
 
 function lensEl(shape: Shape) {
   const x = 92,
@@ -75,21 +74,7 @@ export function SideView({ p }: { p: Product }) {
     </svg>
   );
 }
-/* 
-Original colors 
 
-{ bg: "#efe9df", kind: "front" },
-    {
-      bg: "#ece4d4",
-      kind: "front",
-      transform: "perspective(760px) rotateY(-26deg) scale(.95)",
-    },
-    {
-      bg: "#efe7d6",
-      kind: "front",
-      transform: "perspective(760px) rotateY(22deg) rotateX(8deg) scale(.94)",
-    },
-    { bg: "#ece4d4", kind: "side" },*/
 export type View =
   | { bg: string; src: string }
   | { bg: string; transform?: string; kind: "front" | "side" };
@@ -114,22 +99,8 @@ export function getViews(p: Product): View[] {
 }
 
 export function Shot({ view, p }: { view: View; p: Product }) {
-  if ("src" in view) {
-    return (
-      <div className="relative w-full h-full">
-        <Image
-          src={view.src}
-          alt={p.name}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, 50vw"
-        />
-      </div>
-    );
-  }
-
+  if ("src" in view) return <img src={view.src} alt={p.name} />;
   const node = view.kind === "side" ? <SideView p={p} /> : <Glasses p={p} />;
-
   return (
     <div className="shot" style={{ transform: view.transform }}>
       {node}

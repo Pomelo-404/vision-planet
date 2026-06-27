@@ -24,7 +24,6 @@ export default function Carousel({ p }: { p: Product }) {
     setIdx((i) => (i + n + views.length) % views.length);
     setNavKey((k) => k + 1);
   };
-
   const goTo = (n: number) => {
     setIdx(n);
     setNavKey((k) => k + 1);

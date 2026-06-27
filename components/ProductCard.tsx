@@ -6,17 +6,29 @@ import { mxn } from "@/lib/format";
 import { CARD_ROTATE_MS, CARD_ROTATE_JITTER } from "@/lib/config";
 import type { Product } from "@/lib/products";
 
-export default function ProductCard({ p }: { p: Product }) {
-  const views = getViews(p);
-  const [idx, setIdx] = useState(0);
-  const out = p.stock <= 0;
+export default function ProductCard({ variants }: { variants: Product[] }) {
+  const rep = variants.find((v) => v.stock > 0) ?? variants[0];
+  const multi = variants.length > 1;
+  const out = variants.every((v) => v.stock <= 0);
 
+  // multicolor -> una diapositiva por color; un solo color -> las fotos de ese color
+  const slides = multi
+    ? variants.map((v) => ({ view: getViews(v)[0], v }))
+    : getViews(variants[0]).map((view) => ({ view, v: variants[0] }));
+
+  const prices = variants.map((v) => v.price);
+  const priceLabel =
+    new Set(prices).size > 1
+      ? `desde ${mxn(Math.min(...prices))}`
+      : mxn(prices[0]);
+
+  const [idx, setIdx] = useState(0);
   useEffect(() => {
-    if (views.length < 2) return;
+    if (slides.length < 2) return;
     let interval: ReturnType<typeof setInterval>;
     const delay = setTimeout(() => {
       interval = setInterval(
-        () => setIdx((i) => (i + 1) % views.length),
+        () => setIdx((i) => (i + 1) % slides.length),
         CARD_ROTATE_MS + Math.random() * CARD_ROTATE_JITTER,
       );
     }, Math.random() * 2500);
@@ -24,34 +36,46 @@ export default function ProductCard({ p }: { p: Product }) {
       clearTimeout(delay);
       if (interval) clearInterval(interval);
     };
-  }, [views.length]);
+  }, [slides.length]);
+
+  const current = slides[idx] ?? slides[0];
+
   return (
-    <Link href={`/frame/${p.id}`} className={`card${out ? " out" : ""}`}>
+    <Link
+      href={`/frame/${current.v.id}`}
+      className={`card${out ? " out" : ""}`}
+    >
       <div className="pic">
         {out && <span className="badge">Agotado</span>}
-        {views.map((v, i) => (
+        {slides.map((s, i) => (
           <div
             key={i}
             className={`slide${i === idx ? " on" : ""}`}
-            style={{ background: v.bg }}
+            style={{ background: s.view.bg }}
           >
-            <Shot view={v} p={p} />
+            <Shot view={s.view} p={s.v} />
           </div>
         ))}
-        {views.length > 1 && (
+        {slides.length > 1 && (
           <div className="cdots">
-            {views.map((_, i) => (
-              <span key={i} className={`cdot${i === idx ? " on" : ""}`} />
+            {slides.map((s, i) => (
+              <span
+                key={i}
+                className={`cdot${multi ? " swatch" : ""}${i === idx ? " on" : ""}`}
+                style={multi ? { background: s.v.hex } : undefined}
+              />
             ))}
           </div>
         )}
       </div>
       <div className="meta">
-        <span className="mbrand">{p.brand}</span>
-        <span className="mname">{p.name}</span>
+        <span className="mbrand">{rep.brand}</span>
+        <span className="mname">{rep.name}</span>
         <div className="mrow">
-          <span className="mprice">{mxn(p.price)}</span>
-          <span className="mid">{p.id}</span>
+          <span className="mprice">{priceLabel}</span>
+          <span className="mid">
+            {multi ? `${variants.length} colores` : rep.id}
+          </span>
         </div>
       </div>
     </Link>

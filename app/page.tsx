@@ -1,10 +1,12 @@
 import { Suspense } from "react";
 import Catalog from "@/components/Catalog";
+import { getProducts } from "@/lib/sheet";
 
-export default function Home() {
+export default async function Home() {
+  const products = await getProducts();
   return (
     <Suspense fallback={null}>
-      <Catalog />
+      <Catalog products={products} />
     </Suspense>
   );
 }

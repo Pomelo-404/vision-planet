@@ -83,7 +83,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      {/* Next injects the viewport meta automatically, so mobile renders correctly */}
+      {/* Next inyecta el viewport automáticamente, así que el móvil se ve bien */}
       <body>{children}</body>
     </html>
   );

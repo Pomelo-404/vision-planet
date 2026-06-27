@@ -8,10 +8,11 @@ export type Shape =
 
 export type Product = {
   id: string;
+  model: string; // agrupa variantes de color del mismo armazón; mismo valor = misma tarjeta
   name: string;
   brand: string;
   color: string;
-  hex: string; // Para el color que usa el SVG placeholder
+  hex: string; // color del armazón para el dibujo SVG (se ignora si hay fotos)
   shape: Shape;
   size: string;
   mm: string;
@@ -20,17 +21,20 @@ export type Product = {
   type: "Oftálmico" | "Sol";
   price: number;
   stock: number;
-  imgs: string[]; // Urls reales vacio usa el dibujo generado
+  imgs: string[]; // rutas de fotos reales; vacío = usa el dibujo
   desc: string;
 };
 
 export const SHOP = {
-  whatsapp: "523330276670",
+  whatsapp: "525512345678", // código de país + número, solo dígitos, sin + ni espacios
 };
 
+// RESPALDO local: se usa si la hoja no está disponible.
 export const products: Product[] = [
+  // Condesa: tres colores, una tarjeta
   {
-    id: "BF-101",
+    id: "BF-101-NEG",
+    model: "Condesa",
     name: "Condesa",
     brand: "Ben & Frank",
     color: "Negro",
@@ -47,41 +51,46 @@ export const products: Product[] = [
     desc: "Armazón cuadrado de acetato con líneas limpias. Un clásico que combina con todo.",
   },
   {
-    id: "BF-102",
-    name: "Roma",
+    id: "BF-101-CAR",
+    model: "Condesa",
+    name: "Condesa",
     brand: "Ben & Frank",
     color: "Carey",
     hex: "#5a3a1e",
-    shape: "Redondo",
-    size: "Chico",
-    mm: "48□20",
+    shape: "Cuadrado",
+    size: "Mediano",
+    mm: "52□18",
     material: "Acetato",
-    style: "Mujer",
+    style: "Unisex",
     type: "Oftálmico",
     price: 1299,
     stock: 0,
     imgs: [],
-    desc: "Redondo en carey, ligero y femenino. Ideal para rostros angulares.",
+    desc: "Armazón cuadrado de acetato con líneas limpias. Un clásico que combina con todo.",
   },
   {
-    id: "BF-103",
-    name: "Reforma",
+    id: "BF-101-CRI",
+    model: "Condesa",
+    name: "Condesa",
     brand: "Ben & Frank",
     color: "Cristal",
     hex: "#b9bcc0",
-    shape: "Rectangular",
-    size: "Grande",
-    mm: "56□16",
+    shape: "Cuadrado",
+    size: "Mediano",
+    mm: "52□18",
     material: "Acetato",
-    style: "Hombre",
+    style: "Unisex",
     type: "Oftálmico",
-    price: 1399,
+    price: 1349,
     stock: 3,
     imgs: [],
-    desc: "Rectangular translúcido, sobrio y profesional.",
+    desc: "Armazón cuadrado de acetato con líneas limpias. Un clásico que combina con todo.",
   },
+
+  // Wayfarer: dos colores
   {
-    id: "RB-201",
+    id: "RB-201-NEG",
+    model: "Wayfarer Clásico",
     name: "Wayfarer Clásico",
     brand: "Ray-Ban",
     color: "Negro",
@@ -98,7 +107,46 @@ export const products: Product[] = [
     desc: "El icónico wayfarer de sol. Lente oscuro con protección UV.",
   },
   {
+    id: "RB-201-CAR",
+    model: "Wayfarer Clásico",
+    name: "Wayfarer Clásico",
+    brand: "Ray-Ban",
+    color: "Carey",
+    hex: "#5a3a1e",
+    shape: "Wayfarer",
+    size: "Mediano",
+    mm: "54□18",
+    material: "Acetato",
+    style: "Unisex",
+    type: "Sol",
+    price: 2899,
+    stock: 4,
+    imgs: [],
+    desc: "El icónico wayfarer de sol. Lente oscuro con protección UV.",
+  },
+
+  // Modelos de un solo color (model = nombre)
+  {
+    id: "BF-103",
+    model: "Reforma",
+    name: "Reforma",
+    brand: "Ben & Frank",
+    color: "Cristal",
+    hex: "#b9bcc0",
+    shape: "Rectangular",
+    size: "Grande",
+    mm: "56□16",
+    material: "Acetato",
+    style: "Hombre",
+    type: "Oftálmico",
+    price: 1399,
+    stock: 3,
+    imgs: [],
+    desc: "Rectangular translúcido, sobrio y profesional.",
+  },
+  {
     id: "RB-202",
+    model: "Aviador Oro",
     name: "Aviador Oro",
     brand: "Ray-Ban",
     color: "Dorado",
@@ -116,6 +164,7 @@ export const products: Product[] = [
   },
   {
     id: "OK-301",
+    model: "Lince",
     name: "Lince",
     brand: "Óptica MX",
     color: "Azul",
@@ -133,6 +182,7 @@ export const products: Product[] = [
   },
   {
     id: "OK-302",
+    model: "Sierra",
     name: "Sierra",
     brand: "Óptica MX",
     color: "Verde",
@@ -150,6 +200,7 @@ export const products: Product[] = [
   },
   {
     id: "PR-401",
+    model: "Milano",
     name: "Milano",
     brand: "Prisma",
     color: "Vino",
@@ -167,6 +218,7 @@ export const products: Product[] = [
   },
   {
     id: "PR-402",
+    model: "Sole",
     name: "Sole",
     brand: "Prisma",
     color: "Carey",
@@ -184,6 +236,7 @@ export const products: Product[] = [
   },
   {
     id: "GG-501",
+    model: "Urbano",
     name: "Urbano",
     brand: "Genérica",
     color: "Gris",
@@ -201,6 +254,7 @@ export const products: Product[] = [
   },
   {
     id: "GG-502",
+    model: "Brisa",
     name: "Brisa",
     brand: "Genérica",
     color: "Rosa",

@@ -1,5 +1,6 @@
 :root {
   /* ===== COLORS ===== */
+  /*===== Original =====
   --bg: #f6f2eb;
   --card: #fff;
   --ink: #211e1a;
@@ -8,7 +9,33 @@
   --accent: #2f5d4f;
   --soft: #eef3ef;
   --cream: #efe9df;
+  --wa: #25d366; 
+
+  === Excelente Azul turquesa ===
+  --bg: #f4f9f9;
+  --card: #ffffff;
+  --ink: #1c2726;
+  --muted: #5c7170;
+  --line: #e6f0ef; 
+  --accent: #14b8a6; 
+  --soft: #eaf3f2;
+  --soft-chip: #ffffff;
+  --wa: #22c55e;
+  --cream: #c2e5e1; // mas oscuro
+
+  --cream: #ddeded;
+  */
+  --bg: #eff7f7;
+  --card: #ffffff;
+  --ink: #1c2726;
+  --muted: #5c7170;
+  --line: #e6f0ef;
+  --accent: #14b8a6;
+  --soft: #eaf3f2;
+  --soft-chip: #ffffff;
   --wa: #25d366;
+  --cream: #c2e5e1;
+
   /* ===== LAYOUT ===== */
   --maxw: 1100px; /* max width on big screens */
   --pad: 22px; /* outer padding */
@@ -47,7 +74,7 @@ button {
   max-width: var(--maxw);
   margin: 0 auto;
   background: var(--bg);
-  border-radius: 16px;
+  border-radius: 0 0 16px 16px;
   padding: var(--pad);
   line-height: 1.5;
 }
@@ -147,7 +174,7 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: var(--soft);
+  background: var(--soft-chip);
   color: var(--accent);
   border: 1px solid #d9e4dd;
   border-radius: 20px;
@@ -204,7 +231,7 @@ button {
   background: var(--soft);
 }
 .frow.active {
-  background: #efeae1;
+  background: #e1efef;
 }
 .frow .fl {
   flex: 1;
@@ -314,7 +341,7 @@ button {
   top: 8px;
   left: 8px;
   z-index: 3;
-  background: #fff;
+  background: #ffdbdb;
   color: #8a3b2f;
   border: 1px solid #ecc7bf;
   font-size: 11px;
@@ -336,11 +363,11 @@ button {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: rgba(33, 30, 26, 0.22);
+  background: rgba(26, 33, 33, 0.22);
   transition: background 0.3s;
 }
 .cdot.on {
-  background: rgba(33, 30, 26, 0.62);
+  background: rgba(26, 32, 33, 0.62);
 }
 .meta {
   padding: 11px 13px 14px;
@@ -463,7 +490,7 @@ button {
   display: inline-block;
   font-family: ui-monospace, monospace;
   font-size: 13px;
-  background: var(--soft);
+  background: var(--soft-chip);
   color: var(--accent);
   padding: 4px 12px;
   border-radius: 8px;
@@ -518,7 +545,7 @@ button {
 }
 .desc {
   font-size: 14px;
-  color: #4b463f;
+  color: #3f4a4b;
   line-height: 1.6;
   margin: 0 0 18px;
 }
@@ -562,6 +589,18 @@ button {
   margin: 12px 0 0;
 }
 
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.logo {
+  height: auto;
+  width: auto;
+  padding-right: 0.8rem;
+}
+
 /* ===== RESPONSIVE — switches at 640px of the .shop container width ===== */
 @container (max-width: 640px) {
   .detail {
@@ -592,5 +631,16 @@ button {
   }
   .dprice {
     font-size: 23px;
+  }
+  .head {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  .brand {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
   }
 }

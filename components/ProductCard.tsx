@@ -51,7 +51,7 @@ export default function ProductCard({ p }: { p: Product }) {
         <span className="mname">{p.name}</span>
         <div className="mrow">
           <span className="mprice">{mxn(p.price)}</span>
-          <span className="mid">${p.id}</span>
+          <span className="mid">{p.id}</span>
         </div>
       </div>
     </Link>

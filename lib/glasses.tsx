@@ -1,4 +1,5 @@
 import type { Product, Shape } from "./products";
+import Image from "next/image";
 
 function lensEl(shape: Shape) {
   const x = 92,
@@ -74,16 +75,10 @@ export function SideView({ p }: { p: Product }) {
     </svg>
   );
 }
+/* 
+Original colors 
 
-export type View =
-  | { bg: string; src: string }
-  | { bg: string; transform?: string; kind: "front" | "side" };
-
-export function getViews(p: Product): View[] {
-  if (p.imgs && p.imgs.length)
-    return p.imgs.map((src) => ({ bg: "#efe9df", src }));
-  return [
-    { bg: "#efe9df", kind: "front" },
+{ bg: "#efe9df", kind: "front" },
     {
       bg: "#ece4d4",
       kind: "front",
@@ -94,13 +89,47 @@ export function getViews(p: Product): View[] {
       kind: "front",
       transform: "perspective(760px) rotateY(22deg) rotateX(8deg) scale(.94)",
     },
-    { bg: "#ece4d4", kind: "side" },
+    { bg: "#ece4d4", kind: "side" },*/
+export type View =
+  | { bg: string; src: string }
+  | { bg: string; transform?: string; kind: "front" | "side" };
+
+export function getViews(p: Product): View[] {
+  if (p.imgs && p.imgs.length)
+    return p.imgs.map((src) => ({ bg: "#ffffff", src }));
+  return [
+    { bg: "#ffffff", kind: "front" },
+    {
+      bg: "#ffffff",
+      kind: "front",
+      transform: "perspective(760px) rotateY(-26deg) scale(.95)",
+    },
+    {
+      bg: "#ffffff",
+      kind: "front",
+      transform: "perspective(760px) rotateY(22deg) rotateX(8deg) scale(.94)",
+    },
+    { bg: "#ffffff", kind: "side" },
   ];
 }
 
 export function Shot({ view, p }: { view: View; p: Product }) {
-  if ("src" in view) return <img src={view.src} alt={p.name} />;
+  if ("src" in view) {
+    return (
+      <div className="relative w-full h-full">
+        <Image
+          src={view.src}
+          alt={p.name}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, 50vw"
+        />
+      </div>
+    );
+  }
+
   const node = view.kind === "side" ? <SideView p={p} /> : <Glasses p={p} />;
+
   return (
     <div className="shot" style={{ transform: view.transform }}>
       {node}

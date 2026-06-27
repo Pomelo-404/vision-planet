@@ -18,6 +18,8 @@ import {
 } from "@tabler/icons-react";
 import ProductCard from "./ProductCard";
 import { products } from "@/lib/products";
+import Image from "next/image";
+import logo from "@/public/iso.png";
 
 type Key = "brand" | "shape" | "color" | "size" | "type";
 type Filters = Record<Key, string> & { q: string; stock: boolean };
@@ -116,9 +118,18 @@ export default function Catalog() {
   return (
     <main className="shop">
       <div className="head">
-        <div>
-          <p className="brandname">Óptica · Catálogo</p>
-          <p className="tag">Elige tu armazón y pídelo por WhatsApp</p>
+        <div className="brand">
+          <Image
+            src={logo}
+            alt="Vision Planet"
+            width={100}
+            priority
+            className="logo"
+          />
+          <div>
+            <p className="brandname">Vision Planet • Catálogo</p>
+            <p className="tag">Elige tu armazón y pídelo por WhatsApp</p>
+          </div>
         </div>
         <span className="count">
           {list.length} modelo{list.length === 1 ? "" : "s"}

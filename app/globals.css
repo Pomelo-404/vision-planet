@@ -39,7 +39,7 @@
   /* ===== LAYOUT ===== */
   --maxw: 1100px; /* max width on big screens */
   --pad: 22px; /* outer padding */
-  --card-min: 150px; /* min card width -> cards per row */
+  --card-min: 200px; /* min card width -> cards per row */
   --gap: 16px; /* gap between cards */
   --radius: 14px; /* card corner radius */
   --panel-cats: 230px; /* filter category column width (desktop) */
@@ -284,7 +284,7 @@ button {
 }
 .card {
   background: var(--card);
-  border: 1px solid var(--line);
+  border: 2px solid var(--line);
   border-radius: var(--radius);
   overflow: hidden;
   cursor: pointer;

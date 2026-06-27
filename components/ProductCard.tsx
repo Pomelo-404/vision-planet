@@ -19,7 +19,7 @@ export default function ProductCard({ variants }: { variants: Product[] }) {
   const prices = variants.map((v) => v.price);
   const priceLabel =
     new Set(prices).size > 1
-      ? `desde ${mxn(Math.min(...prices))}`
+      ? `Desde ${mxn(Math.min(...prices))}`
       : mxn(prices[0]);
 
   const [idx, setIdx] = useState(0);

@@ -153,6 +153,7 @@ export default function Catalog({ products }: { products: Product[] }) {
         <label className="search">
           <IconSearch size={17} />
           <input
+            name="buscar"
             type="text"
             value={f.q}
             placeholder="Buscar por nombre o ID…"

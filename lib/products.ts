@@ -26,7 +26,7 @@ export type Product = {
 };
 
 export const SHOP = {
-  whatsapp: "525512345678", // código de país + número, solo dígitos, sin + ni espacios
+  whatsapp: "523330276670", // código de país + número, solo dígitos, sin + ni espacios
 };
 
 // RESPALDO local: se usa si la hoja no está disponible.

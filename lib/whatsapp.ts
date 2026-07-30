@@ -12,19 +12,11 @@ export function waMessage(p: Product) {
   const url = `${SITE_URL}/frame/${p.id}`;
   const message = `¡Hola! ${emoji} Me interesa este modelo:
 
-  
-${p.name} (${p.brand})
 ID: ${p.id}
 URL: ${url}
-Color: ${p.color}
-Forma: ${p.shape}
-Tamaño: ${p.size} (${p.mm})
-Material: ${p.material}
-Tipo: ${p.type}
 Precio: ${mxn(p.price)}
 
 ${tail}`;
-  console.log(emoji);
   return message;
 }
 

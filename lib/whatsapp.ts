@@ -1,4 +1,5 @@
 import { SHOP, type Product } from "./products";
+import { SITE_URL } from "./config";
 import { mxn } from "./format";
 
 export function waMessage(p: Product) {
@@ -8,11 +9,13 @@ export function waMessage(p: Product) {
       : "¿Tienen disponibilidad o algo similar?";
 
   const emoji = "👓";
-
+  const url = `${SITE_URL}/frame/${p.id}`;
   const message = `¡Hola! ${emoji} Me interesa este modelo:
+
 
 *${p.name}* (${p.brand})
 ID: ${p.id}
+URL: ${url}
 Color: ${p.color}
 Forma: ${p.shape}
 Tamaño: ${p.size} (${p.mm})

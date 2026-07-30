@@ -12,8 +12,8 @@ export function waMessage(p: Product) {
   const url = `${SITE_URL}/frame/${p.id}`;
   const message = `¡Hola! ${emoji} Me interesa este modelo:
 
-
-*${p.name}* (${p.brand})
+  
+${p.name} (${p.brand})
 ID: ${p.id}
 URL: ${url}
 Color: ${p.color}

@@ -10,10 +10,12 @@ export function waMessage(p: Product) {
 
   const emoji = "👓";
   const url = `${SITE_URL}/frame/${p.id}`;
+  const saleUrl = `${SITE_URL}/confirmar?modelo=${encodeURIComponent(p.id)}`;
   const message = `¡Hola! ${emoji} Me interesa este modelo:
 
 ID: ${p.id}
 URL: ${url}
+Registro: ${saleUrl}
 Precio: ${mxn(p.price)}
 
 ${tail}`;

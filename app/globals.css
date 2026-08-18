@@ -84,6 +84,152 @@ input:focus-visible {
   padding: var(--pad);
   line-height: 1.5;
 }
+.sale-page {
+  min-height: 100dvh;
+  padding: 24px;
+  display: grid;
+  place-items: center;
+}
+.sale-card {
+  width: min(100%, 480px);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 16px 42px rgba(28, 39, 38, 0.08);
+}
+.sale-heading {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin: 18px 0 22px;
+}
+.sale-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--soft);
+  color: var(--accent);
+}
+.eyebrow {
+  margin: 0 0 1px;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.sale-heading h1 {
+  margin: 0;
+  font-family: var(--fs);
+  font-size: 25px;
+  font-weight: 500;
+}
+.sale-intro,
+.sale-warning {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.sale-warning {
+  color: #8a5a15;
+  background: #fff5df;
+  border-radius: 9px;
+  padding: 10px 12px;
+}
+.sale-form {
+  display: grid;
+  gap: 15px;
+}
+.sale-form label {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.sale-form label > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.sale-form em {
+  color: var(--muted);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+}
+.sale-form input,
+.sale-form textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 15px;
+  padding: 10px 11px;
+}
+.sale-form textarea {
+  resize: vertical;
+}
+.sale-product {
+  display: grid;
+  gap: 2px;
+  padding: 12px;
+  border: 1px solid #cfe5e2;
+  border-radius: 11px;
+  background: var(--soft);
+}
+.sale-product span {
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.sale-product strong {
+  font-family: var(--fs);
+  font-size: 18px;
+  font-weight: 500;
+}
+.sale-product small {
+  color: var(--muted);
+  font-size: 12px;
+}
+.sale-submit {
+  width: 100%;
+  background: var(--accent);
+  color: #fff;
+}
+.sale-submit:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+.sale-error {
+  color: #a33125;
+  background: #fff0ef;
+  border-radius: 9px;
+  padding: 9px 11px;
+  font-size: 13px;
+  margin: 0;
+}
+.sale-success {
+  text-align: center;
+  color: var(--accent);
+  padding: 18px 0 4px;
+}
+.sale-success h2 {
+  color: var(--ink);
+  font-family: var(--fs);
+  font-weight: 500;
+  margin: 10px 0 4px;
+}
+.sale-success p {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0 0 22px;
+}
 .head {
   display: flex;
   align-items: flex-end;

@@ -8,7 +8,6 @@ import {
   IconArrowLeft,
   IconCheck,
   IconX,
-  IconRefresh,
   IconEye,
   IconTag,
   IconEyeglass2,
@@ -167,9 +166,11 @@ export default function Catalog({ products }: { products: Product[] }) {
             setOpen((o) => !o);
             setShowVals(false);
           }}
-          aria-label="Filtros"
+          aria-expanded={open}
+          aria-controls="filter-panel"
         >
           <IconFilter size={19} />
+          <span>Filtros</span>
           {activeCount > 0 && (
             <span className="fbadge show">{activeCount}</span>
           )}
@@ -187,9 +188,20 @@ export default function Catalog({ products }: { products: Product[] }) {
       )}
 
       {open && (
-        <div className={`fpanel open${showVals ? " show-vals" : ""}`}>
+        <section
+          id="filter-panel"
+          className={`fpanel open${showVals ? " show-vals" : ""}`}
+          aria-label="Opciones de filtro"
+        >
           <div className="fcats">
-            <div className="fhead">Filtros</div>
+            <div className="fhead">
+              <span>Filtrar por</span>
+              {activeCount > 0 && (
+                <button className="clear-filters" onClick={reset}>
+                  Limpiar todo
+                </button>
+              )}
+            </div>
             {cats.map((c) => (
               <button
                 key={c.k}
@@ -213,10 +225,6 @@ export default function Catalog({ products }: { products: Product[] }) {
               <span className="fl">Solo disponibles</span>
               <span className="fv">{f.stock && <IconCheck size={16} />}</span>
             </button>
-            <button className="frow reset" onClick={reset}>
-              <IconRefresh size={19} />
-              <span className="fl">Reiniciar</span>
-            </button>
           </div>
           <div className="fvals">
             <div className="fhead">
@@ -227,7 +235,7 @@ export default function Catalog({ products }: { products: Product[] }) {
               >
                 <IconArrowLeft size={17} />
               </button>
-              <span>{activeLabel}</span>
+              <span>Elige {activeLabel.toLowerCase()}</span>
             </div>
             <button
               className={`vrow${!f[activeCat] ? " on" : ""}`}
@@ -247,7 +255,7 @@ export default function Catalog({ products }: { products: Product[] }) {
               </button>
             ))}
           </div>
-        </div>
+        </section>
       )}
 
       <div className="grid">

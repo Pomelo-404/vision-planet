@@ -68,6 +68,12 @@ a {
 button {
   font-family: inherit;
 }
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  outline-offset: 2px;
+}
 
 .shop {
   container-type: inline-size;
@@ -132,17 +138,23 @@ button {
   color: var(--ink);
 }
 .filterbtn {
-  width: 48px;
+  min-width: 48px;
   height: 40px;
   border: 1px solid var(--line);
   border-radius: 10px;
   background: var(--card);
-  display: grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 12px;
   cursor: pointer;
   color: var(--ink);
   position: relative;
   flex: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
 }
 .filterbtn.active {
   background: var(--soft);
@@ -189,6 +201,9 @@ button {
   margin-bottom: 18px;
   overflow: hidden;
 }
+.fpanel:focus-within {
+  border-color: #b7ddda;
+}
 .fpanel.open {
   display: grid;
   grid-template-columns: var(--panel-cats) 1fr;
@@ -209,6 +224,17 @@ button {
   display: flex;
   align-items: center;
   gap: 6px;
+  justify-content: space-between;
+}
+.clear-filters {
+  color: var(--accent);
+  background: none;
+  border: none;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 2px 0;
 }
 .frow,
 .vrow {
@@ -247,15 +273,6 @@ button {
   color: var(--accent);
 }
 .frow .ch {
-  color: var(--muted);
-}
-.frow.reset {
-  border-top: 1px solid var(--line);
-  border-radius: 0;
-  margin-top: 5px;
-}
-.frow.reset > svg,
-.frow.reset .fl {
   color: var(--muted);
 }
 .vrow {
@@ -322,6 +339,36 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+.product-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.product-image-file {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.product-image.is-loaded .product-image-file,
+.product-image.is-failed .product-image-file {
+  opacity: 1;
+}
+.image-skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, #e9f1f1 20%, #f8fbfb 40%, #e9f1f1 60%);
+  background-size: 200% 100%;
+  animation: image-loading 1.35s ease-in-out infinite;
+}
+@keyframes image-loading {
+  to {
+    background-position: -200% 0;
+  }
 }
 .shot {
   display: grid;
@@ -672,6 +719,13 @@ button {
   }
   .vback {
     display: inline-block;
+  }
+  .filterbtn span:not(.fbadge) {
+    display: none;
+  }
+  .filterbtn {
+    width: 48px;
+    padding: 0;
   }
   .dname {
     font-size: 24px;

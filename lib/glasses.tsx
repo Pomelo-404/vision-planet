@@ -1,5 +1,5 @@
 import type { Product, Shape } from "./products";
-import Image from "next/image";
+import ProductImage from "@/components/ProductImage";
 
 function lensEl(shape: Shape) {
   const x = 92,
@@ -101,18 +101,7 @@ export function getViews(p: Product): View[] {
 
 export function Shot({ view, p }: { view: View; p: Product }) {
   if ("src" in view)
-    return (
-      <Image
-        src={view.src}
-        alt={p.name}
-        width={800}
-        height={800}
-        style={{
-          width: "100%",
-          height: "auto",
-        }}
-      />
-    );
+    return <ProductImage src={view.src} alt={`${p.name} en ${p.color}`} />;
   const node = view.kind === "side" ? <SideView p={p} /> : <Glasses p={p} />;
   return (
     <div className="shot" style={{ transform: view.transform }}>

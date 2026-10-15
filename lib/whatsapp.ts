@@ -15,6 +15,7 @@ export function waMessage(p: Product) {
 
 ID: ${p.id}
 URL: ${url}
+
 Registro: ${saleUrl}
 Precio: ${mxn(p.price)}
 

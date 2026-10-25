@@ -46,6 +46,7 @@ export default function FrameDetail({
                     className={`swatch${v.id === selected.id ? " on" : ""}${v.stock <= 0 ? " soldout" : ""}`}
                     style={{ background: v.hex }}
                     onClick={() => pick(v)}
+                    aria-pressed={v.id === selected.id}
                     aria-label={v.color}
                     title={v.color + (v.stock <= 0 ? " (agotado)" : "")}
                   />
@@ -94,8 +95,8 @@ export default function FrameDetail({
             <CopyButton text={waMessage(selected)} />
           </div>
           <p className="hint">
-            Elige un color arriba. Las fotos avanzan solas y se pausan al pasar
-            el cursor.
+            Elige un color arriba. Desliza las fotos en celular o usa las
+            flechas; usa la lupa para ver los detalles.
           </p>
         </div>
       </div>

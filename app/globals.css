@@ -361,6 +361,15 @@ input:focus-visible {
 .fvals {
   padding: 8px;
 }
+.fpanel.values-brand .fvals {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 6px;
+}
+.fpanel.values-brand .fvals .fhead,
+.fpanel.values-brand .fvals .vrow:first-of-type {
+  grid-column: 1 / -1;
+}
 .fhead {
   font-size: 11px;
   letter-spacing: 1px;
@@ -476,6 +485,7 @@ input:focus-visible {
   position: absolute;
   inset: 0;
   display: block;
+  cursor: pointer;
 }
 .card-meta-link {
   cursor: pointer;

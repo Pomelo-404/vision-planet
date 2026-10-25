@@ -190,7 +190,7 @@ export default function Catalog({ products }: { products: Product[] }) {
       {open && (
         <section
           id="filter-panel"
-          className={`fpanel open${showVals ? " show-vals" : ""}`}
+          className={`fpanel open${showVals ? " show-vals" : ""}${activeCat === "brand" ? " values-brand" : ""}`}
           aria-label="Opciones de filtro"
         >
           <div className="fcats">

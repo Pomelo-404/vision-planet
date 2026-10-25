@@ -1,12 +1,14 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { getViews, Shot } from "@/lib/glasses";
 import { mxn } from "@/lib/format";
 import { CARD_ROTATE_MS, CARD_ROTATE_JITTER } from "@/lib/config";
 import type { Product } from "@/lib/products";
 
 export default function ProductCard({ variants }: { variants: Product[] }) {
+  const router = useRouter();
   const rep = variants.find((v) => v.stock > 0) ?? variants[0];
   const multi = variants.length > 1;
   const out = variants.every((v) => v.stock <= 0);
@@ -16,7 +18,6 @@ export default function ProductCard({ variants }: { variants: Product[] }) {
   const [idx, setIdx] = useState(0);
   const [rotationKey, setRotationKey] = useState(0);
   const pointerStart = useRef({ x: 0, y: 0 });
-  const didSwipe = useRef(false);
 
   useEffect(() => {
     if (slides.length < 2) return;
@@ -35,11 +36,8 @@ export default function ProductCard({ variants }: { variants: Product[] }) {
     setRotationKey((key) => key + 1);
   };
   const current = slides[idx] ?? slides[0];
-  const stopFollowAfterSwipe = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!didSwipe.current) return;
-    event.preventDefault();
-    didSwipe.current = false;
-  };
+  const isColorControl = (target: EventTarget | null) => target instanceof Element && Boolean(target.closest(".cdots"));
+  const openCurrentModel = () => router.push(`/frame/${current.v.id}`);
 
   return (
     <article className={`card${out ? " out" : ""}`}>
@@ -47,22 +45,36 @@ export default function ProductCard({ variants }: { variants: Product[] }) {
         className="pic"
         onPointerDown={(event) => {
           if (event.pointerType === "mouse" && event.button !== 0) return;
+          if (isColorControl(event.target)) return;
           pointerStart.current = { x: event.clientX, y: event.clientY };
           event.currentTarget.setPointerCapture(event.pointerId);
         }}
         onPointerUp={(event) => {
+          if (isColorControl(event.target)) return;
           const dx = event.clientX - pointerStart.current.x;
           const dy = event.clientY - pointerStart.current.y;
           if (Math.abs(dx) > 35 && Math.abs(dx) > Math.abs(dy)) {
-            didSwipe.current = true;
             changeSlide(idx + (dx < 0 ? 1 : -1));
+            return;
           }
+          openCurrentModel();
         }}
       >
-        <Link href={`/frame/${current.v.id}`} className="card-image-link" aria-label={`Ver ${current.v.name}`} onClick={stopFollowAfterSwipe}>
+        <div
+          className="card-image-link"
+          role="link"
+          tabIndex={0}
+          aria-label={`Ver ${current.v.name}`}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              openCurrentModel();
+            }
+          }}
+        >
           {out && <span className="badge">Agotado</span>}
           {slides.map((s, i) => <div key={i} className={`slide${i === idx ? " on" : ""}`} style={{ background: s.view.bg }}><Shot view={s.view} p={s.v} /></div>)}
-        </Link>
+        </div>
         {slides.length > 1 && (
           <div className="cdots" aria-label={multi ? "Colores disponibles" : "Imágenes disponibles"}>
             {slides.map((s, i) => multi ? (
@@ -71,7 +83,7 @@ export default function ProductCard({ variants }: { variants: Product[] }) {
           </div>
         )}
       </div>
-      <Link href={`/frame/${current.v.id}`} className="meta card-meta-link" onClick={stopFollowAfterSwipe}>
+      <Link href={`/frame/${current.v.id}`} className="meta card-meta-link">
         <span className="mbrand">{rep.brand}</span>
         <span className="mname">{rep.name}</span>
         <div className="mrow"><span className="mprice">{priceLabel}</span><span className="mid">{multi ? `${variants.length} colores` : rep.id}</span></div>

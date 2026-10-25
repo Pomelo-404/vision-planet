@@ -16,6 +16,8 @@ const MIN_ZOOM = 1;
 const MAX_ZOOM = 4;
 const ZOOM_STEP = 0.35;
 
+type Point = { x: number; y: number };
+
 export default function Carousel({ p }: { p: Product }) {
   const views = getViews(p);
   const [idx, setIdx] = useState(0);
@@ -28,6 +30,8 @@ export default function Carousel({ p }: { p: Product }) {
   const startX = useRef(0);
   const startY = useRef(0);
   const drag = useRef({ active: false, x: 0, y: 0, panX: 0, panY: 0 });
+  const pointers = useRef(new Map<number, Point>());
+  const pinch = useRef<{ distance: number; zoom: number } | null>(null);
 
   useEffect(() => {
     if (views.length < 2) return;
@@ -78,6 +82,10 @@ export default function Carousel({ p }: { p: Product }) {
   const closeViewer = () => {
     paused.current = false;
     setViewerOpen(false);
+  };
+  const pinchDistance = () => {
+    const [first, second] = Array.from(pointers.current.values());
+    return first && second ? Math.hypot(second.x - first.x, second.y - first.y) : 0;
   };
 
   return (
@@ -137,22 +145,43 @@ export default function Carousel({ p }: { p: Product }) {
                 setZoomLevel(zoomValue.current + (event.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP));
               }}
               onPointerDown={(event) => {
-                if (zoom <= MIN_ZOOM) return;
-                drag.current = { active: true, x: event.clientX, y: event.clientY, panX: pan.x, panY: pan.y };
+                pointers.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
                 event.currentTarget.setPointerCapture(event.pointerId);
+                if (pointers.current.size === 2) {
+                  pinch.current = { distance: pinchDistance(), zoom: zoomValue.current };
+                  drag.current.active = false;
+                  return;
+                }
+                if (zoomValue.current > MIN_ZOOM) {
+                  drag.current = { active: true, x: event.clientX, y: event.clientY, panX: pan.x, panY: pan.y };
+                }
               }}
               onPointerMove={(event) => {
+                if (!pointers.current.has(event.pointerId)) return;
+                pointers.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+                if (pointers.current.size === 2 && pinch.current) {
+                  setZoomLevel(pinch.current.zoom * (pinchDistance() / pinch.current.distance));
+                  return;
+                }
                 if (!drag.current.active) return;
                 setPan({ x: drag.current.panX + event.clientX - drag.current.x, y: drag.current.panY + event.clientY - drag.current.y });
               }}
-              onPointerUp={() => (drag.current.active = false)}
-              onPointerCancel={() => (drag.current.active = false)}
+              onPointerUp={(event) => {
+                pointers.current.delete(event.pointerId);
+                pinch.current = null;
+                drag.current.active = false;
+              }}
+              onPointerCancel={(event) => {
+                pointers.current.delete(event.pointerId);
+                pinch.current = null;
+                drag.current.active = false;
+              }}
             >
               <div className="zoom-pan" style={{ transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})` }}>
                 <Shot view={views[idx]} p={p} />
               </div>
             </div>
-            <p className="zoom-help">Usa la rueda o los botones para acercar. Arrastra la imagen para recorrerla.</p>
+            <p className="zoom-help">Usa la rueda, los botones o dos dedos para acercar. Arrastra la imagen para recorrerla.</p>
           </div>
         </div>
       )}

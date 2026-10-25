@@ -751,6 +751,11 @@ input:focus-visible {
   place-items: center;
   background: var(--cream);
   touch-action: none;
+  user-select: none;
+}
+.zoom-canvas img {
+  -webkit-user-drag: none;
+  user-drag: none;
 }
 .zoom-canvas.is-draggable {
   cursor: grab;

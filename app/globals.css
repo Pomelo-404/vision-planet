@@ -466,6 +466,11 @@ input:focus-visible {
   aspect-ratio: 5/3.4;
   overflow: hidden;
   touch-action: pan-y;
+  user-select: none;
+  cursor: grab;
+}
+.pic:active {
+  cursor: grabbing;
 }
 .card-image-link {
   position: absolute;
@@ -553,12 +558,12 @@ input:focus-visible {
 }
 .cdots {
   position: absolute;
-  bottom: 7px;
+  bottom: 10px;
   left: 0;
   right: 0;
   z-index: 3;
   display: flex;
-  gap: 4px;
+  gap: 8px;
   justify-content: center;
 }
 .cdot {
@@ -923,8 +928,8 @@ input:focus-visible {
 
 /* ===== Selectores de color (swatches) ===== */
 .cdot.swatch {
-  width: 10px;
-  height: 10px;
+  width: 22px;
+  height: 22px;
   border: 1px solid rgba(255, 255, 255, 0.7);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
   cursor: pointer;

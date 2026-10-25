@@ -15,7 +15,7 @@ export default function ProductCard({ variants }: { variants: Product[] }) {
   const priceLabel = new Set(prices).size > 1 ? `Desde ${mxn(Math.min(...prices))}` : mxn(prices[0]);
   const [idx, setIdx] = useState(0);
   const [rotationKey, setRotationKey] = useState(0);
-  const touchStart = useRef({ x: 0, y: 0 });
+  const pointerStart = useRef({ x: 0, y: 0 });
   const didSwipe = useRef(false);
 
   useEffect(() => {
@@ -45,10 +45,14 @@ export default function ProductCard({ variants }: { variants: Product[] }) {
     <article className={`card${out ? " out" : ""}`}>
       <div
         className="pic"
-        onTouchStart={(event) => { touchStart.current = { x: event.touches[0].clientX, y: event.touches[0].clientY }; }}
-        onTouchEnd={(event) => {
-          const dx = event.changedTouches[0].clientX - touchStart.current.x;
-          const dy = event.changedTouches[0].clientY - touchStart.current.y;
+        onPointerDown={(event) => {
+          if (event.pointerType === "mouse" && event.button !== 0) return;
+          pointerStart.current = { x: event.clientX, y: event.clientY };
+          event.currentTarget.setPointerCapture(event.pointerId);
+        }}
+        onPointerUp={(event) => {
+          const dx = event.clientX - pointerStart.current.x;
+          const dy = event.clientY - pointerStart.current.y;
           if (Math.abs(dx) > 35 && Math.abs(dx) > Math.abs(dy)) {
             didSwipe.current = true;
             changeSlide(idx + (dx < 0 ? 1 : -1));

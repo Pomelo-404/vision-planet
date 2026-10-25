@@ -32,10 +32,10 @@ export default function Carousel({ p }: { p: Product }) {
   useEffect(() => {
     if (views.length < 2) return;
     const t = setInterval(() => {
-      if (!paused.current) setIdx((i) => (i + 1) % views.length);
+      if (!paused.current && !viewerOpen) setIdx((i) => (i + 1) % views.length);
     }, CAROUSEL_MS);
     return () => clearInterval(t);
-  }, [views.length, navKey]);
+  }, [views.length, navKey, viewerOpen]);
 
   useEffect(() => {
     if (!viewerOpen) return;
